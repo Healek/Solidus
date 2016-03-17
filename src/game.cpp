@@ -3977,7 +3977,7 @@ bool Game::combatChangeHealth(CombatType_t combatType, MagicEffectClasses custom
 	if (attacker) {
 		attackerPlayer = attacker->getPlayer();
 	} else {
-		attackerPlayer = nullptr;
+		attackerPlayer = NULL;
 	}
 
 	if(!attackerPlayer && !targetPlayer && !monster->isSummon()) {

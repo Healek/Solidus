@@ -111,7 +111,7 @@ void NetworkMessage::AddItem(uint16_t id, uint8_t count)
 
 	AddU16(it.clientId);
 
-	if(it.stackable){
+	if(it.stackable || it.isRune()){
 		AddByte(count);
 	}
 	else if(it.isSplash() || it.isFluidContainer()){
@@ -125,7 +125,7 @@ void NetworkMessage::AddItem(const Item* item)
 
 	AddU16(it.clientId);
 
-	if(it.stackable){
+	if(it.stackable || it.isRune()){
 		AddByte(item->getSubType());
 	}
 	else if(it.isSplash() || it.isFluidContainer()){
@@ -133,12 +133,14 @@ void NetworkMessage::AddItem(const Item* item)
 	}
 }
 
-void NetworkMessage::AddItemId(const Item *item){
+void NetworkMessage::AddItemId(const Item *item)
+{
 	const ItemType &it = Item::items[item->getID()];
 	AddU16(it.clientId);
 }
 
-void NetworkMessage::AddItemId(uint16_t itemId){
+void NetworkMessage::AddItemId(uint16_t itemId)
+{
 	const ItemType &it = Item::items[itemId];
 	AddU16(it.clientId);
 }

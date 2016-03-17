@@ -29,8 +29,6 @@
 #include "outputmessage.h"
 #include "rsa.h"
 
-extern RSA g_RSA;
-
 void Protocol::onSendMessage(OutputMessage_ptr msg)
 {
 	#ifdef __DEBUG_NET_DETAIL__
@@ -193,17 +191,10 @@ bool Protocol::XTEA_decrypt(NetworkMessage& msg)
 	return true;
 }
 
-bool Protocol::RSA_decrypt(NetworkMessage& msg)
-{
-	return RSA_decrypt(&g_RSA, msg);
-}
-
 bool Protocol::RSA_decrypt(RSA* rsa, NetworkMessage& msg)
 {
 	if(msg.getMessageLength() - msg.getReadPos() != 128){
-#ifdef __DEBUG_NET_DETAIL__
 		std::cout << "Warning: [Protocol::RSA_decrypt]. Not valid packet size" << std::endl;
-#endif
 		return false;
 	}
 
@@ -212,9 +203,7 @@ bool Protocol::RSA_decrypt(RSA* rsa, NetworkMessage& msg)
 	}
 
 	if(msg.GetByte() != 0){
-#ifdef __DEBUG_NET_DETAIL__
 		std::cout << "Warning: [Protocol::RSA_decrypt]. First byte != 0" << std::endl;
-#endif
 		return false;
 	}
 
