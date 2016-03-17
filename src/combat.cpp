@@ -179,6 +179,10 @@ CombatType_t Combat::ConditionToDamageType(ConditionType_t type)
 		case CONDITION_POISON:
 			return COMBAT_EARTHDAMAGE;
 			break;
+			
+		case CONDITION_DROWN:
+			return COMBAT_DROWNDAMAGE;
+			break;			
 
 		default:
 			break;
@@ -202,6 +206,10 @@ ConditionType_t Combat::DamageToConditionType(CombatType_t type)
 			return CONDITION_POISON;
 			break;
 
+		case COMBAT_DROWNDAMAGE:
+			return CONDITION_DROWN;
+			break;			
+			
 		default:
 			break;
 	}

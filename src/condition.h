@@ -48,7 +48,7 @@ enum ConditionType_t {
 	CONDITION_EXHAUST_YELL   = 1 << 12,
 	CONDITION_REGENERATION   = 1 << 13,
 	CONDITION_SOUL           = 1 << 14,
-	//CONDITION_DROWN          = 1 << 15,
+	CONDITION_DROWN          = 1 << 15,
 	CONDITION_MUTED          = 1 << 16,
 	CONDITION_ATTRIBUTES     = 1 << 17,
 	//CONDITION_FREEZING       = 1 << 18,

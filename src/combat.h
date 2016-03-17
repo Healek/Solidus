@@ -392,6 +392,7 @@ inline std::string CombatTypeName(CombatType_t combat) {
 		case COMBAT_LIFEDRAIN: return "life drain";
 		case COMBAT_MANADRAIN: return "mana drain";
 		case COMBAT_HEALING: return "healing";
+		case COMBAT_DROWNDAMAGE: return "drown";
 	}
 	return "none";
 }

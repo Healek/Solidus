@@ -1035,6 +1035,7 @@ bool Items::loadFromXml(const std::string& datadir)
 								it.abilities.absorb.resistances[CombatTypeToIndex(COMBAT_PHYSICALDAMAGE)] = intValue;
 								it.abilities.absorb.resistances[CombatTypeToIndex(COMBAT_LIFEDRAIN)] = intValue;
 								it.abilities.absorb.resistances[CombatTypeToIndex(COMBAT_MANADRAIN)] = intValue;
+								it.abilities.absorb.resistances[CombatTypeToIndex(COMBAT_DROWNDAMAGE)] = intValue;
 							}
 						}
 						else if(asLowerCaseString(strValue) == "absorbpercentallelements"){
@@ -1071,6 +1072,11 @@ bool Items::loadFromXml(const std::string& datadir)
 								it.abilities.absorb.resistances[CombatTypeToIndex(COMBAT_MANADRAIN)] = intValue;
 							}
 						}
+						else if(asLowerCaseString(strValue) == "absorbpercentdrown"){
+							if(readXMLInteger(itemAttributesNode, "value", intValue)){
+								it.abilities.absorb.resistances[CombatTypeToIndex(COMBAT_DROWNDAMAGE)] = intValue;
+							}
+						}						
 						else if(asLowerCaseString(strValue) == "absorbpercentphysical"){
 							if(readXMLInteger(itemAttributesNode, "value", intValue)){
 								it.abilities.absorb.resistances[CombatTypeToIndex(COMBAT_PHYSICALDAMAGE)] = intValue;
@@ -1101,6 +1107,11 @@ bool Items::loadFromXml(const std::string& datadir)
 								it.abilities.conditionSuppressions |= CONDITION_LIFEDRAIN;
 							}
 						}
+						else if(asLowerCaseString(strValue) == "suppressdrown"){
+							if(readXMLInteger(itemAttributesNode, "value", intValue)){
+								it.abilities.conditionSuppressions |= CONDITION_DROWN;
+							}
+						}						
 						else if(asLowerCaseString(strValue) == "preventitemloss"){
 							if(readXMLInteger(itemAttributesNode, "value", intValue)){
 								it.abilities.preventItemLoss = (intValue != 0);
@@ -1165,6 +1176,10 @@ bool Items::loadFromXml(const std::string& datadir)
 									conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_POISON);
 									combatType = COMBAT_EARTHDAMAGE;
 								}
+								else if(asLowerCaseString(strValue) == "drown"){
+									conditionDamage = new ConditionDamage(CONDITIONID_COMBAT, CONDITION_DROWN);
+									combatType = COMBAT_DROWNDAMAGE;
+								}								
 								else{
 									std::cout << "Warning: [Items::loadFromXml] " << "Unknown field value " << strValue  << std::endl;
 								}

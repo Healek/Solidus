@@ -206,6 +206,7 @@ Condition* Condition::createCondition(ConditionId_t _id, ConditionType_t _type, 
 		case CONDITION_POISON:
 		case CONDITION_FIRE:
 		case CONDITION_ENERGY:
+		case CONDITION_DROWN:
 		{
 			return new ConditionDamage(_id, _type);
 			break;
@@ -1512,6 +1513,10 @@ uint16_t ConditionDamage::getIcons() const
 		case CONDITION_POISON:
 			icons |= ICON_POISON;
 			break;
+		
+		case CONDITION_DROWN:
+			icons |= ICON_DROWNING;
+			break;		
 
 		default:
 			break;

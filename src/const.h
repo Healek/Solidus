@@ -56,6 +56,8 @@ enum MagicEffectClasses {
 	NM_ME_SOUND_PURPLE     = 0x16, //22
 	NM_ME_SOUND_BLUE       = 0x17, //23
 	NM_ME_SOUND_WHITE      = 0x18, //24
+	NM_ME_BUBBLES	       = 0x19, //25
+	NM_ME_CRAPS            = 0x1A, //26	
 	
 	//for internal use, dont send to client
 	NM_ME_NONE             = 0xFF,
@@ -193,7 +195,8 @@ enum Icons_t{
 	ICON_MANASHIELD = 16,
 	ICON_PARALYZE   = 32,
 	ICON_HASTE      = 64,
-	ICON_SWORDS     = 128
+	ICON_SWORDS     = 128,
+	ICON_DROWNING = 256
 };
 
 enum WeaponType_t {

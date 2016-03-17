@@ -3945,6 +3945,13 @@ bool Game::combatBlockHit(CombatType_t combatType, Creature* attacker, Creature*
 				hitEffect = NM_ME_POISON_RINGS;
 				break;
 			}
+			
+			case COMBAT_DROWNDAMAGE:
+			{
+				textColor = TEXTCOLOR_LIGHTBLUE;
+				hitEffect = NM_ME_LOSE_ENERGY;
+				break;
+			}			
 
 			default:
 				hitEffect = NM_ME_PUFF;
