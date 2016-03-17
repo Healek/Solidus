@@ -49,6 +49,7 @@ extern ConfigManager g_config;
 extern Actions actions;
 extern BanManager g_bans;
 extern CreatureEvents* g_creatureEvents;
+extern RSA* g_otservRSA;
 Chat g_chat;
 
 #ifdef __ENABLE_SERVER_DIAGNOSTIC__
@@ -303,7 +304,7 @@ bool ProtocolGame::parseFirstPacket(NetworkMessage& msg)
 	/*uint16_t clientos =*/ msg.GetU16();
 	uint16_t version  = msg.GetU16();
 
-	if(!RSA_decrypt(msg)){
+	if(!RSA_decrypt(g_otservRSA, msg)){
 		getConnection()->closeConnection();
 		return false;
 	}
@@ -993,15 +994,15 @@ void ProtocolGame::parseUseItem(NetworkMessage& msg)
 
 void ProtocolGame::parseUseItemEx(NetworkMessage& msg)
 {
-	Position fromPos = msg.GetPosition();
+	Position pos = msg.GetPosition();
 	uint16_t fromSpriteId = msg.GetSpriteId();
 	uint8_t fromStackPos = msg.GetByte();
 	Position toPos = msg.GetPosition();
 	uint16_t toSpriteId = msg.GetU16();
 	uint8_t toStackPos = msg.GetByte();
-	bool isHotkey = (fromPos.x == 0xFFFF && fromPos.y == 0 && fromPos.z == 0);
+	bool isHotkey = (pos.x == 0xFFFF && pos.y == 0 && pos.z == 0);
 
-	addGameTaskTimed(DISPATCHER_TASK_EXPIRATION, &Game::playerUseItemEx, player->getID(), fromPos, fromStackPos, fromSpriteId, toPos, toStackPos, toSpriteId, isHotkey);
+	addGameTaskTimed(DISPATCHER_TASK_EXPIRATION, &Game::playerUseItemEx, player->getID(), pos, fromStackPos, fromSpriteId, toPos, toStackPos, toSpriteId, isHotkey);
 }
 
 void ProtocolGame::parseBattleWindow(NetworkMessage &msg)
