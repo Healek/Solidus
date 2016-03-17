@@ -23,9 +23,9 @@
 
 #define OTSERV_VERSION "3.0"
 #define OTSERV_NAME "Tibia World RPG OldSchool"
-#define OTSERV_CLIENT_VERSION "7.72"
+#define OTSERV_CLIENT_VERSION "7.81"
 
-#define CURRENT_SCHEMA_VERSION 24
+#define CURRENT_SCHEMA_VERSION 25
 
 #ifdef __USE_SQLITE__
 	#define SINGLE_SQL_DRIVER
