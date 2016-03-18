@@ -155,17 +155,13 @@ bool Outfits::loadFromXml(const std::string& datadir)
 						}
 						
 						Outfit outfit;
-						std::string outfitName;
-						readXMLString(p, "name", outfitName);
 						if(readXMLInteger(p, "looktype", intVal)){
 							outfit.looktype = intVal;
 						}
 						if(readXMLInteger(p, "addons", intVal)){
 							outfit.addons = intVal;
 						}
-						
-						outfitNamesMap[outfit.looktype] = outfitName;
-						
+
 						list->addOutfit(outfit);
 					}
 				}
