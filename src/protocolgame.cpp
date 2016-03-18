@@ -1496,7 +1496,7 @@ void ProtocolGame::sendIcons(uint16_t icons)
 	if(msg){
 		TRACK_MESSAGE(msg);
 		msg->AddByte(0xA2);
-		msg->AddByte(icons);
+		msg->AddU16(icons);
 	}
 }
 
@@ -1800,16 +1800,20 @@ void ProtocolGame::sendAddCreature(const Creature* creature, const Position& pos
 			if(creature == player){
 				msg->AddByte(0x0A);
 				msg->AddU32(player->getID());
-				msg->AddU16(0x0032); // Related to client-side drawing speed
+
+				msg->AddByte(0x32);
+				msg->AddByte(0x00);//dont sure.... RVR?
+
 				msg->AddByte(player->hasFlag(PlayerFlag_CanReportBugs));
 
+				/*fix here RVR
 				if (player->hasFlag(PlayerFlag_CanAnswerRuleViolations)){
 					msg->AddByte(0x0B);
 					for (uint8_t i = 0; i < 32; i++) {
 						msg->AddByte(0xFF);
 					}
 				}
-
+				*/
 				AddMapDescription(msg, pos);
 
 				if (isLoggingIn){
