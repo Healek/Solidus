@@ -202,7 +202,7 @@ enum Icons_t{
 	ICON_PARALYZE   = 32,
 	ICON_HASTE      = 64,
 	ICON_SWORDS     = 128,
-	ICON_DROWNING = 256
+	ICON_DROWNING 	= 256
 };
 
 enum WeaponType_t {
