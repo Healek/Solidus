@@ -2071,7 +2071,13 @@ void LuaScriptInterface::registerFunctions()
 	lua_register(m_luaState, "getPlayerStamina", LuaScriptInterface::luaGetPlayerStamina);
 
 	//doPlayerSetStamina(cid, minutes)
-	lua_register(m_luaState, "doPlayerSetStamina", LuaScriptInterface::luaDoPlayerSetStamina);	
+	lua_register(m_luaState, "doPlayerSetStamina", LuaScriptInterface::luaDoPlayerSetStamina);
+
+	//doPlayerAddOutfit(cid,looktype,addons)
+	lua_register(m_luaState, "doPlayerAddOutfit", LuaScriptInterface::luaDoPlayerAddOutfit);
+
+	//doPlayerRemOutfit(cid,looktype,addons)
+	lua_register(m_luaState, "doPlayerRemOutfit", LuaScriptInterface::luaDoPlayerRemOutfit);
 	
 }
 
@@ -9544,5 +9550,45 @@ int LuaScriptInterface::luaDoPlayerSetStamina(lua_State* L)
 		lua_pushboolean(L, false);
 	}
 
+	return 1;
+}
+
+int LuaScriptInterface::luaDoPlayerAddOutfit(lua_State *L)
+{
+	//doPlayerAddOutfit(cid, looktype, addon)
+	int addon = (int)popNumber(L);
+	int looktype = (int)popNumber(L);
+	uint32_t cid = popNumber(L);
+
+	ScriptEnviroment* env = getScriptEnv();
+	Player* player = env->getPlayerByUID(cid);
+	if(player){
+		player->addOutfit(looktype, addon);
+		lua_pushboolean(L, true);
+	}
+	else{
+		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
+			lua_pushboolean(L, false);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaDoPlayerRemOutfit(lua_State *L)
+{
+	//doPlayerRemOutfit(cid, looktype, addon)
+	int addon = (int)popNumber(L);
+	int looktype = (int)popNumber(L);
+	uint32_t cid = popNumber(L);
+
+	ScriptEnviroment* env = getScriptEnv();
+	Player* player = env->getPlayerByUID(cid);
+	if(player){
+		player->remOutfit(looktype, addon);
+		lua_pushboolean(L, true);
+	}
+	else{
+		reportErrorFunc(getErrorDesc(LUA_ERROR_PLAYER_NOT_FOUND));
+			lua_pushboolean(L, false);
+	}
 	return 1;
 }

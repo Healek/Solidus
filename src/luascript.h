@@ -509,6 +509,9 @@ protected:
 	static int luaSetGlobalStorageValue(lua_State *L);
 	static int luaDoEraseGlobalStorageValue(lua_State *L);
 
+	static int luaDoPlayerAddOutfit(lua_State *L);
+	static int luaDoPlayerRemOutfit(lua_State *L);
+
 	static int luaIsGmInvisible(lua_State *L);
 	static int luaDoPlayerToogleGmInvisible(lua_State *L);
 	static int luaGetPlayerAccountId(lua_State *L);

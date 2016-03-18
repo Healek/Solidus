@@ -959,8 +959,26 @@ void Player::dropLoot(Container* corpse)
 
 void Player::addStorageValue(const uint32_t key, const int32_t value)
 {
-
-	storageMap[key] = value;
+	if(IS_IN_KEYRANGE(key, RESERVED_RANGE)){
+		if(IS_IN_KEYRANGE(key, OUTFITS_RANGE)){
+			Outfit outfit;
+			outfit.looktype = value >> 16;
+			outfit.addons = value & 0xFF;
+			if(outfit.addons > 3){
+				std::cout << "Warning: No valid addons value key:" << key << " value: " << (int)(value & 0xFF) << " player: " << getName() << std::endl;
+			}
+			else{
+				m_playerOutfits.addOutfit(outfit);
+			}
+		}
+		else{
+			//warning
+			std::cout << "Warning: unknown reserved key: " << key << " player: " << getName() << std::endl;
+		}
+	}
+	else{
+		storageMap[key] = value;
+	}
 }
 
 bool Player::getStorageValue(const uint32_t key, int32_t& value) const
@@ -4411,10 +4429,72 @@ void Player::checkSkullTicks(int32_t ticks)
 }
 #endif
 
+const OutfitListType& Player::getPlayerOutfits()
+{
+	return m_playerOutfits.getOutfits();
+}
+
+bool Player::canWear(uint32_t _looktype, uint32_t _addons)
+{
+	if(m_playerOutfits.isInList(_looktype, _addons)){
+		return true;
+	}
+	return false;
+}
+
+void Player::genReservedStorageRange()
+{
+	uint32_t base_key;
+	//generate outfits range
+	base_key = PSTRG_OUTFITS_RANGE_START + 1;
+
+	const OutfitList& global_outfits = Outfits::getInstance()->getOutfitList(sex);
+
+	const OutfitListType& outfits = m_playerOutfits.getOutfits();
+	OutfitListType::const_iterator it;
+	for(it = outfits.begin(); it != outfits.end(); ++it){
+		uint32_t looktype = (*it)->looktype;
+		uint32_t addons = (*it)->addons;
+		if(!global_outfits.isInList(looktype, addons)){
+			int32_t value = (looktype << 16) | (addons & 0xFF);
+			storageMap[base_key] = value;
+			base_key++;
+			if(base_key > PSTRG_OUTFITS_RANGE_START + PSTRG_OUTFITS_RANGE_SIZE){
+				std::cout << "Warning: [Player::genReservedStorageRange()] Player " << getName() << " with more than 500 outfits!." << std::endl;
+				break;
+			}
+		}
+	}
+}
+
+void Player::addOutfit(uint32_t _looktype, uint32_t _addons)
+{
+	Outfit outfit;
+	outfit.looktype = _looktype;
+	outfit.addons = _addons;
+	m_playerOutfits.addOutfit(outfit);
+}
+
+bool Player::remOutfit(uint32_t _looktype, uint32_t _addons)
+{
+	Outfit outfit;
+	outfit.looktype = _looktype;
+	outfit.addons = _addons;
+	return m_playerOutfits.remOutfit(outfit);
+}
+
 void Player::setSex(PlayerSex_t player_sex)
 {
-	if(sex != player_sex){
-		sex = player_sex;
+	sex = player_sex;
+	//add default outfits to player outfits
+	Outfits* outfits = Outfits::getInstance();
+	const OutfitListType& global_outfits = outfits->getOutfits(sex);
+	OutfitListType::const_iterator it;
+	Outfit outfit;
+	for(it = global_outfits.begin(); it != global_outfits.end(); ++it){
+		outfit.looktype = (*it)->looktype;
+		outfit.addons = (*it)->addons;
+		m_playerOutfits.addOutfit(outfit);
 	}
 }
 

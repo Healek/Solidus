@@ -44,6 +44,7 @@
 #include "scriptmanager.h"
 #include "configmanager.h"
 #include "guild.h"
+#include "outfit.h"
 
 #include "tools.h"
 #include "ban.h"
@@ -573,6 +574,19 @@ void mainLoader(const CommandLineOptions& command_opts, ServiceManager* service_
 	filename << g_config.getString(ConfigManager::DATA_DIRECTORY) << "monster/monsters.xml";
 	std::cout << ":: Loading " << filename.str() << "... " << std::flush;
 	if(!g_monsters.loadFromXml(g_config.getString(ConfigManager::DATA_DIRECTORY))){
+		std::stringstream errormsg;
+		errormsg << "Unable to load " << filename.str() << "!";
+		ErrorMessage(errormsg.str().c_str());
+		exit(-1);
+	}
+	std::cout << "[done]" << std::endl;
+
+	// load outfits data
+	filename.str("");
+	filename << g_config.getString(ConfigManager::DATA_DIRECTORY) << "outfits.xml";
+	std::cout << ":: Loading " << filename.str() << "... ";
+	Outfits* outfits = Outfits::getInstance();
+	if(!outfits->loadFromXml(g_config.getString(ConfigManager::DATA_DIRECTORY))){
 		std::stringstream errormsg;
 		errormsg << "Unable to load " << filename.str() << "!";
 		ErrorMessage(errormsg.str().c_str());
