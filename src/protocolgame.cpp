@@ -2278,19 +2278,38 @@ void ProtocolGame::AddCreatureSpeak(NetworkMessage_ptr msg, const Creature* crea
 	SpeakClasses type, std::string text, uint16_t channelId, uint32_t time /*= 0*/)
 {
 	msg->AddByte(0xAA);
-	msg->AddU32(0x00); //PLEASE FIX STATMENT
 
-	//Do not add name for anonymous channel talk
-	if(type != SPEAK_CHANNEL_R2)
-		msg->AddString(creature->getName());
-	else
+	if(creature){
+		if(const Player* speaker = creature->getPlayer()){
+			msg->AddU32(++Player::channelStatementGuid);
+			Player::channelStatementMap[Player::channelStatementGuid] = text;
+
+			if(type == SPEAK_RVR_ANSWER){
+				msg->AddString("Gamemaster");
+				msg->AddU16(0x00);
+			}
+			else{
+				if(type == SPEAK_CHANNEL_R2){
+					msg->AddString("");
+				}
+				else{
+					msg->AddString(speaker->getName());
+				}
+
+				msg->AddU16(speaker->getPlayerInfo(PLAYERINFO_LEVEL));
+			}
+		}
+		else{
+			msg->AddU32(0x00);
+			msg->AddString(creature->getName());
+			msg->AddU16(0x00);
+		}
+	}
+	else{
+		msg->AddU32(0x00);
 		msg->AddString("");
-
-	//Add level only for players
-	if(const Player* player = creature->getPlayer())
-		msg->AddU16(player->getPlayerInfo(PLAYERINFO_LEVEL));
-	else
 		msg->AddU16(0x00);
+	}
 
 	msg->AddByte(type);
 	switch(type){
