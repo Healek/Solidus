@@ -3951,7 +3951,6 @@ bool Game::combatBlockHit(CombatType_t combatType, Creature* attacker, Creature*
 			
 			case COMBAT_DROWNDAMAGE:
 			{
-				textColor = TEXTCOLOR_LIGHTBLUE;
 				hitEffect = NM_ME_LOSE_ENERGY;
 				break;
 			}			
