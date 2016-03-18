@@ -2334,12 +2334,10 @@ void ProtocolGame::AddCreatureOutfit(NetworkMessage_ptr msg, const Creature* cre
 		msg->AddByte(outfit.lookBody);
 		msg->AddByte(outfit.lookLegs);
 		msg->AddByte(outfit.lookFeet);
-	}
-	else if(outfit.lookTypeEx != 0){
-		msg->AddItemId(outfit.lookTypeEx);
+		msg->AddByte(outfit.lookAddons);
 	}
 	else{
-		msg->AddU16(outfit.lookTypeEx);
+		msg->AddItemId(outfit.lookTypeEx);
 	}
 }
 
