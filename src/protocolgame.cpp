@@ -950,33 +950,20 @@ void ProtocolGame::parseAutoWalk(NetworkMessage& msg)
 
 void ProtocolGame::parseSetOutfit(NetworkMessage& msg)
 {
-	uint16_t lookType = msg.GetU16();
+	int looktype = msg.GetU16();
+	int lookhead = msg.GetByte();
+	int lookbody = msg.GetByte();
+	int looklegs = msg.GetByte();
+	int lookfeet = msg.GetByte();
+	int lookaddons = msg.GetByte();
 
 	Outfit_t newOutfit;
-
-	// only first 4 outfits
-	uint8_t lastFemaleOutfit = 0x8B;
-	uint8_t lastMaleOutfit = 0x83;
-
-	// if premium then all 7 outfits
-	if (player->getSex() == PLAYERSEX_FEMALE && player->isPremium())
-		lastFemaleOutfit = 0x8E;
-	else if (player->getSex() == PLAYERSEX_MALE && player->isPremium())
-		lastMaleOutfit = 0x86;
-
-	if ((player->getSex() == PLAYERSEX_FEMALE &&
-		lookType >= 136 &&
-		lookType <= lastFemaleOutfit) ||
-		(player->getSex() == PLAYERSEX_MALE &&
-		lookType >= 128 &&
-		lookType <= lastMaleOutfit))
-	{
-		newOutfit.lookType = lookType;
-		newOutfit.lookHead = msg.GetByte();
-		newOutfit.lookBody = msg.GetByte();
-		newOutfit.lookLegs = msg.GetByte();
-		newOutfit.lookFeet = msg.GetByte();
-	}
+	newOutfit.lookType = looktype;
+	newOutfit.lookHead = lookhead;
+	newOutfit.lookBody = lookbody;
+	newOutfit.lookLegs = looklegs;
+	newOutfit.lookFeet = lookfeet;
+	newOutfit.lookAddons = lookaddons;
 
 	addGameTask(&Game::playerChangeOutfit, player->getID(), newOutfit);
 }
@@ -2091,36 +2078,32 @@ void ProtocolGame::sendHouseWindow(uint32_t windowTextId, House* _house,
 
 void ProtocolGame::sendOutfitWindow()
 {
+	#define MAX_NUMBER_OF_OUTFITS 25
+
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg){
 		msg->AddByte(0xC8);
 		AddCreatureOutfit(msg, player, player->getDefaultOutfit());
 
-		switch (player->getSex()) {
-		case PLAYERSEX_FEMALE:
-			msg->AddU16(136);
-			if (player->isPremium())
-				msg->AddU16(142);
-			else
-				msg->AddU16(139);
+		const OutfitListType& player_outfits = player->getPlayerOutfits();
+		size_t count_outfits = player_outfits.size();
 
-			break;
-		case PLAYERSEX_MALE:
-			msg->AddU16(128);
-			if (player->isPremium())
-				msg->AddU16(134);
-			else
-				msg->AddU16(131);
+		if(count_outfits > MAX_NUMBER_OF_OUTFITS){
+			msg->AddByte(MAX_NUMBER_OF_OUTFITS);
+		}
+		else if(count_outfits == 0){
+			return;
+		}
+		else{
+			msg->AddByte(count_outfits);
+		}
 
-			break;
-		case 2:
-			msg->AddU16(160);
-			msg->AddU16(160);
-
-			break;
-		default:
-			msg->AddU16(128);
-			msg->AddU16(134);
+		uint32_t counter = 0;
+		OutfitListType::const_iterator it;
+		for(it = player_outfits.begin(); it != player_outfits.end() && (counter < MAX_NUMBER_OF_OUTFITS); ++it, ++counter){
+			msg->AddU16((*it)->looktype);
+			msg->AddString(Outfits::getInstance()->getOutfitName((*it)->looktype));
+			msg->AddByte((*it)->addons);
 		}
 	}
 }

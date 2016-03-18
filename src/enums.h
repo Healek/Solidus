@@ -226,6 +226,23 @@ enum PlayerSex_t {
 	//When adding new types remember that females should be even and males odd
 };
 
+enum CharacterTypes_t{
+	PLAYER_MALE_1=0x80,
+	PLAYER_MALE_2=0x81,
+	PLAYER_MALE_3=0x82,
+	PLAYER_MALE_4=0x83,
+	PLAYER_MALE_5=0x84,
+	PLAYER_MALE_6=0x85,
+	PLAYER_MALE_7=0x86,
+	PLAYER_FEMALE_1=0x88,
+	PLAYER_FEMALE_2=0x89,
+	PLAYER_FEMALE_3=0x8A,
+	PLAYER_FEMALE_4=0x8B,
+	PLAYER_FEMALE_5=0x8C,
+	PLAYER_FEMALE_6=0x8D,
+	PLAYER_FEMALE_7=0x8E,
+};
+
 struct Outfit_t{
 	Outfit_t(){
 		lookHead   = 0;
@@ -234,6 +251,7 @@ struct Outfit_t{
 		lookFeet   = 0;
 		lookType   = 0;
 		lookTypeEx = 0;
+		lookAddons = 0;
 	}
 
 	uint32_t lookType;
@@ -242,6 +260,7 @@ struct Outfit_t{
 	uint32_t lookBody;
 	uint32_t lookLegs;
 	uint32_t lookFeet;
+	uint32_t lookAddons;
 };
 
 struct LightInfo{

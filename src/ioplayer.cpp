@@ -50,7 +50,7 @@ bool IOPlayer::loadPlayer(Player* player, const std::string& name, bool preload 
 		`groups`.`name` AS `groupname`, `groups`.`flags` AS `groupflags`, `groups`.`access` AS `access`, \
 		`groups`.`maxviplist` AS `maxviplist`, `groups`.`maxdepotitems` AS `maxdepotitems`, `groups`.`violation` AS `violation`, \
 		`healthmax`, `mana`, `manamax`, `manaspent`, `soul`, `direction`, `lookbody`, \
-		`lookfeet`, `lookhead`, `looklegs`, `looktype`, `posx`, `posy`, \
+		`lookfeet`, `lookhead`, `looklegs`, `lookaddons`, `looktype`, `posx`, `posy`, \
 		`posz`, `cap`, `lastlogin`, `lastlogout`, `lastip`, `conditions`, `skull_time`, \
 		`skull_type`, `loss_experience`, `loss_mana`, `loss_skills`, ";
 
@@ -308,6 +308,7 @@ void IOPlayer::loadOutfit(Player* player, DBResult* result)
 	player->defaultOutfit.lookBody = result->getDataInt("lookbody");
 	player->defaultOutfit.lookLegs = result->getDataInt("looklegs");
 	player->defaultOutfit.lookFeet = result->getDataInt("lookfeet");
+	player->defaultOutfit.lookAddons = result->getDataInt("lookaddons");
 
 	player->currentOutfit = player->defaultOutfit;
 }
@@ -523,6 +524,7 @@ bool IOPlayer::savePlayer(Player* player, bool shallow)
 		<< ", `lookhead` = " << (int32_t)player->defaultOutfit.lookHead
 		<< ", `looklegs` = " << (int32_t)player->defaultOutfit.lookLegs
 		<< ", `looktype` = " << (int32_t)player->defaultOutfit.lookType
+		<< ", `lookaddons` = " << (int32_t)player->defaultOutfit.lookAddons
 		<< ", `maglevel` = " << player->magLevel
 		<< ", `mana` = " << player->mana
 		<< ", `manamax` = " << player->manaMax
@@ -650,6 +652,7 @@ bool IOPlayer::savePlayer(Player* player, bool shallow)
 	}
 
 	stmt.setQuery("INSERT INTO `player_storage` (`player_id` , `key` , `value` ) VALUES ");
+	player->genReservedStorageRange();
 	for(StorageMap::const_iterator cit = player->getStorageIteratorBegin(); cit != player->getStorageIteratorEnd(); ++cit){
 		query << player->getGUID() << ", " << cit->first << ", " << cit->second;
 		if(!stmt.addRow(query)){

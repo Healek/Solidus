@@ -30,6 +30,8 @@
 #include "enums.h"
 #include "vocation.h"
 #include "protocolgame.h"
+#include "outfit.h"
+
 #include <vector>
 #include <ctime>
 #include <algorithm>
@@ -182,6 +184,7 @@ public:
 	static bool getStorageValueByName(const std::string name, const uint32_t key, int32_t& value);
 	static bool setStorageValueByName(const std::string name, const uint32_t key, const int32_t value);
 	static bool eraseStorageValueByName(const std::string name, const uint32_t key);
+	void genReservedStorageRange();
 
 	bool withdrawMoney(uint32_t amount);
 	bool depositMoney(uint32_t amount);
@@ -420,6 +423,11 @@ public:
 		{if(client) client->sendCreatureSkull(creature);}
 	void checkSkullTicks(int32_t ticks);
 #endif
+
+	const OutfitListType& getPlayerOutfits();
+	bool canWear(uint32_t _looktype, uint32_t _addons);
+	void addOutfit(uint32_t _looktype, uint32_t _addons);
+	bool remOutfit(uint32_t _looktype, uint32_t _addons);
 
 	void checkRecentlyGainedExperience(uint32_t interval);
 	bool canLogout();
@@ -810,7 +818,7 @@ protected:
 	LightInfo itemsLight;
 	std::pair<Container*, int32_t> backpack;
 
-	bool requestedOutfitWindow;
+	OutfitList m_playerOutfits;
 
 	//read/write storage data
 	uint32_t windowTextId;
