@@ -2078,7 +2078,8 @@ void ProtocolGame::sendHouseWindow(uint32_t windowTextId, House* _house,
 
 void ProtocolGame::sendOutfitWindow()
 {
-	#define MAX_NUMBER_OF_OUTFITS 25
+	#define MAX_NUMBER_OF_OUTFITS 16
+	//client 7.81 outfits limit is 16
 
 	NetworkMessage_ptr msg = getOutputBuffer();
 	if (msg){
