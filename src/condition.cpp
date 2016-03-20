@@ -1801,7 +1801,8 @@ bool ConditionOutfit::unserializeProp(ConditionAttr_t attr, PropStream& propStre
 				!propStream.GET_UINT32(outfit.lookHead) ||
 				!propStream.GET_UINT32(outfit.lookBody) ||
 				!propStream.GET_UINT32(outfit.lookLegs) ||
-				!propStream.GET_UINT32(outfit.lookFeet)		)
+				!propStream.GET_UINT32(outfit.lookFeet) ||
+				!propStream.GET_UINT32(outfit.lookAddons)		)
 		{
 			return false;
 		}
@@ -1827,6 +1828,7 @@ bool ConditionOutfit::serialize(PropWriteStream& propWriteStream)
 		propWriteStream.ADD_UINT32((*it).lookBody);
 		propWriteStream.ADD_UINT32((*it).lookLegs);
 		propWriteStream.ADD_UINT32((*it).lookFeet);
+		propWriteStream.ADD_UINT32((*it).lookAddons);
 	}
 
 	return true;

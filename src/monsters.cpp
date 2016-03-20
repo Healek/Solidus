@@ -62,6 +62,7 @@ void MonsterType::reset()
 	outfit.lookBody   = 0;
 	outfit.lookLegs   = 0;
 	outfit.lookFeet   = 0;
+	outfit.lookAddons   = 0;
 	outfit.lookType   = 0;
 	outfit.lookTypeEx = 0;
 
@@ -1086,6 +1087,9 @@ bool Monsters::loadMonster(const std::string& file, const std::string& monster_n
 					if(readXMLInteger(p, "feet", intValue)){
 						mType->outfit.lookFeet = intValue;
 					}
+					if(readXMLInteger(p, "addons", intValue)){
+						mType->outfit.lookAddons = intValue;
+					}					
 				}
 				else if(readXMLInteger(p, "typeex", intValue)){
 					mType->outfit.lookTypeEx = intValue;

@@ -242,6 +242,9 @@ bool Npc::loadFromXml(const std::string& filename)
 					if (readXMLInteger(p, "feet", intValue)){
 						defaultOutfit.lookFeet = intValue;
 					}
+					if (readXMLInteger(p, "addons", intValue)){
+						defaultOutfit.lookAddons = intValue;
+					}					
 				}
 				else if (readXMLInteger(p, "typeex", intValue)){
 					defaultOutfit.lookTypeEx = intValue;

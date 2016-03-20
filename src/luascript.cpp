@@ -1716,7 +1716,7 @@ void LuaScriptInterface::registerFunctions()
 	//addDamageCondition(condition, rounds, time, value)
 	lua_register(m_luaState, "addDamageCondition", LuaScriptInterface::luaAddDamageCondition);
 
-	//addOutfitCondition(condition, lookTypeEx, lookType, lookHead, lookBody, lookLegs, lookFeet)
+	//addOutfitCondition(condition, lookTypeEx, lookType, lookHead, lookBody, lookLegs, lookFeet, lookAddons)
 	lua_register(m_luaState, "addOutfitCondition", LuaScriptInterface::luaAddOutfitCondition);
 
 	//setCombatCallBack(combat, key, function_name)
@@ -5824,8 +5824,9 @@ int LuaScriptInterface::luaAddDamageCondition(lua_State *L)
 
 int LuaScriptInterface::luaAddOutfitCondition(lua_State *L)
 {
-	//addOutfitCondition(condition, lookTypeEx, lookType, lookHead, lookBody, lookLegs, lookFeet)
+	//addOutfitCondition(condition, lookTypeEx, lookType, lookHead, lookBody, lookLegs, lookFeet, lookAddons)
 	Outfit_t outfit;
+	outfit.lookAddons = popNumber(L);
 	outfit.lookFeet = popNumber(L);
 	outfit.lookLegs = popNumber(L);
 	outfit.lookBody = popNumber(L);
@@ -6880,6 +6881,7 @@ int LuaScriptInterface::luaSetCreatureOutfit(lua_State *L)
 	outfit.lookBody = getField(L, "lookBody");
 	outfit.lookLegs = getField(L, "lookLegs");
 	outfit.lookFeet = getField(L, "lookFeet");
+	outfit.lookFeet = getField(L, "lookAddons");
 	lua_pop(L, 1);
 
 	uint32_t cid = popNumber(L);
@@ -6921,6 +6923,7 @@ int LuaScriptInterface::luaGetCreatureOutfit(lua_State *L)
 		setField(L, "lookBody", outfit.lookBody);
 		setField(L, "lookLegs", outfit.lookLegs);
 		setField(L, "lookFeet", outfit.lookFeet);
+		setField(L, "lookAddons", outfit.lookAddons);
 
 		return 1;
 	}
@@ -7630,6 +7633,7 @@ int LuaScriptInterface::luaDoCreatureChangeOutfit(lua_State *L)
 	outfit.lookBody = getField(L, "lookBody");
 	outfit.lookLegs = getField(L, "lookLegs");
 	outfit.lookFeet = getField(L, "lookFeet");
+	outfit.lookAddons = getField(L, "lookAddons");
 	lua_pop(L, 1);
 
 	uint32_t cid = popNumber(L);
