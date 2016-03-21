@@ -21,9 +21,9 @@
 #ifndef __OTSERV_DEFINITIONS_H__
 #define __OTSERV_DEFINITIONS_H__
 
-#define OTSERV_VERSION "3.0"
-#define OTSERV_NAME "Tibia World RPG OldSchool"
-#define OTSERV_CLIENT_VERSION "7.81"
+#define OTSERV_VERSION "1.0"
+#define OTSERV_NAME "OTServ_SVN 0.6.3"
+#define OTSERV_CLIENT_VERSION "7.8x"
 
 #define CURRENT_SCHEMA_VERSION 25
 

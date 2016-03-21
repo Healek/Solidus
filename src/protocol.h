@@ -36,8 +36,8 @@ class RSA;
 
 // Beware! This server is optimized to work with 7.8x protocol only
 // Working on higher / lower versions will require work in the game protocol
-#define CLIENT_VERSION_MIN 781
-#define CLIENT_VERSION_MAX 781
+#define CLIENT_VERSION_MIN 780
+#define CLIENT_VERSION_MAX 782
 
 #define STRING_CLIENT_VERSION "This server requires client version " OTSERV_CLIENT_VERSION "."
 
