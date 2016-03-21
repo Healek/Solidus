@@ -20,7 +20,7 @@ map_store_type = "binary"
 mapkind = "OTBM"
 
 -- server name
-servername = "OTServ_SVN 0.6.3"
+servername = "Solidus"
 
 -- server location
 location = "Brazil"
@@ -267,11 +267,11 @@ maxmessagebuffer = 4
 lua_excepted_type_errors_enabled = false
 
 -- motd (the message box that you sometimes get before you choose characters)
-motd = "Welcome to OTServ_SVN 0.6.3.\nHave fun!"
+motd = "Welcome to Solidus.\nHave fun!"
 motdnum = "1"
 
 -- login message
-loginmsg = "Welcome to OTServ_SVN 0.6.3!"
+loginmsg = "Welcome to Solidus!"
 
 -- how many logins attempts until ip is temporary disabled
 -- set to 0 to disable
