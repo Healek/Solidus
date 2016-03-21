@@ -1,4 +1,3 @@
-
 # Solidus
 OpenTibia Server for Tibia 7.8x
 
@@ -6,7 +5,7 @@ This OTServer is based on OTServ Trunk SVN work (latest stable trunk rev). The c
 
 Developers: Nottinghster & Tryller
 
-0.0.1 (Development)
+1.0 (Development)
 
 * Added Hotkeys features
 * Added Stamina system
