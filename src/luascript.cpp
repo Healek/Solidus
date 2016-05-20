@@ -6881,7 +6881,7 @@ int LuaScriptInterface::luaSetCreatureOutfit(lua_State *L)
 	outfit.lookBody = getField(L, "lookBody");
 	outfit.lookLegs = getField(L, "lookLegs");
 	outfit.lookFeet = getField(L, "lookFeet");
-	outfit.lookFeet = getField(L, "lookAddons");
+	outfit.lookAddons = getField(L, "lookAddons");
 	lua_pop(L, 1);
 
 	uint32_t cid = popNumber(L);
